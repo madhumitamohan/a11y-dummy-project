@@ -28,9 +28,19 @@ pipeline {
         stage('Publish Lint Report') {
             steps {
                 sh '''
+                    REPORT_CONTENT=$(cat eslint-report.json)
+                    PROJECT_NAME="a11y-dummy-project"
+                    PROJECT_ID="a11y-dummy-project"
+
+                    JSON_PAYLOAD=$(jq -n \
+                                    --arg projectName "${PROJECT_NAME}" \
+                                    --arg projectId "${PROJECT_ID}" \
+                                    --argjson report "${REPORT_CONTENT}" \
+                                    '{projectName: $projectName, projectId: $projectId, report: $report}')
+
                     curl -X POST \
                     -H "Content-Type: application/json" \
-                    --data-binary @eslint-report.json \
+                    --data "${JSON_PAYLOAD}" \
                     http://localhost:8081/api/lint-reports
                 '''
             }
