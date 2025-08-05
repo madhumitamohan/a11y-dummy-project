@@ -51,6 +51,13 @@ function MoreA11yIssues() {
           </tr>
         </tbody>
       </table>
+
+      {/* Issue 11: Using autofocus (warning) */}
+      <input type="text" autoFocus placeholder="This input has autofocus" />
+
+      {/* Issue 12: Using distracting elements (warning) */}
+      <marquee>This is a distracting marquee.</marquee>
+
     </div>
   );
 }
